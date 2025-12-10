@@ -18,6 +18,8 @@ async def generate_qr_endpoint(
         scale: int = Form(5),
         style: str = Form("default"),  # default, heart, circle, etc.
         error_level: str = Form("h"),  # l, m, q, h
+        logo_image: UploadFile = File(None),  # Optional logo
+        logo_scale: float = Form(0.3),       # Fraction of QR width for logo
         output_format: str = Form("png"),
 ):
 
@@ -30,6 +32,8 @@ async def generate_qr_endpoint(
         scale=scale,
         style=style,
         error_level=error_level,
+        logo_image=logo_image,
+        logo_scale=logo_scale,
         output_format=output_format
     )
 
