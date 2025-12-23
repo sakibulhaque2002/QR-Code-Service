@@ -1,43 +1,40 @@
 import segno
 from PIL import Image
 import io
-import os
-import cairosvg
 from utils.shape import create_shape
 
-def generate_heart_qr(
+def generate_custom_qr(
         data,
-        foreground = "#000000",
-        background = "#FFFFFF",
+        foreground = "black",
+        background = "white",
         scale = 5,
+        shape_scale=1.3,
         error_level = "h"
 ):
-    """
-    Generate QR code with heart-shaped modules.
-    """
 
     # Step 1: Generate QR code matrix using segno
     qr = segno.make(data, error=error_level)
     matrix = qr.matrix
 
     # Step 2: Define image dimensions
+    border = 4
     qr_width = len(matrix[0])
     qr_height = len(matrix)
-    img_width = (qr_width) * scale
-    img_height = (qr_height) * scale
+    img_width = (qr_width + 2 * border) * scale
+    img_height = (qr_height + 2 * border) * scale
 
     # Step 3: Create colored background
     qr_img = Image.new("RGBA", (img_width, img_height), background)
 
     # Step 4: Create heart image with user-specified color
-    heart = create_shape(foreground, scale * 1.5)
+    heart = create_shape(foreground, scale * shape_scale)
 
     # Step 5: Place hearts where QR modules are dark
     for row_idx, row in enumerate(matrix):
         for col_idx, module in enumerate(row):
             if module:  # Dark module (1 or True)
-                x = (col_idx) * scale
-                y = (row_idx) * scale
+                x = (col_idx + border) * scale
+                y = (row_idx + border) * scale
                 qr_img.paste(heart, (x, y), mask=heart)
 
     # Step 6: Return as PNG

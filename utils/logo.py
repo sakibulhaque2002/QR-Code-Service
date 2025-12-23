@@ -3,15 +3,7 @@
 import io
 from PIL import Image
 
-def embed_logo_in_qr(qr_bytes: bytes, logo_bytes: bytes, logo_scale: float = 0.3) -> bytes:
-    """
-    Embeds a logo at the center of the QR code.
-
-    :param qr_bytes: Generated QR code in bytes.
-    :param logo_bytes: Uploaded logo image in bytes.
-    :param logo_scale: Size of the logo as a fraction of the QR width.
-    :return: Modified QR code with embedded logo as bytes.
-    """
+def embed_logo_in_qr(qr_bytes: bytes, logo_bytes: bytes, logo_scale: float = 0.2) -> bytes:
 
     # Open QR image
     qr_img = Image.open(io.BytesIO(qr_bytes)).convert("RGBA")

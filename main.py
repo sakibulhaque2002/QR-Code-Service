@@ -5,7 +5,6 @@ from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
 from utils.qr_generator import generate_qr
 import io
-import os
 
 app = FastAPI(title="Custom QR Code API")
 
@@ -16,9 +15,10 @@ async def generate_qr_endpoint(
         background: str = Form("#FFFFFF"),
         scale: int = Form(5),
         shape: str = Form("default"),  # default, heart, circle, etc.
+        shape_scale: float = Form(1.3),
         error_level: str = Form("h"),  # l, m, q, h
-        logo_image: UploadFile = File(None),  # Optional logo
-        logo_scale: float = Form(0.3),       # Fraction of QR width for logo
+        logo_image: UploadFile = File(None),
+        logo_scale: float = Form(0.2),       # Fraction of QR width for logo
 ):
 
     # Generate QR
@@ -28,6 +28,7 @@ async def generate_qr_endpoint(
         background=background,
         scale=scale,
         shape=shape,
+        shape_scale=shape_scale,
         error_level=error_level,
         logo_image=logo_image,
         logo_scale=logo_scale

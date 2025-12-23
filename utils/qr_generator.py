@@ -1,38 +1,32 @@
 # qr_converter.py
 
-import segno
-from PIL import Image
-import io
-import cairosvg
 from styles.default_qr import generate_default_qr
-from styles.heart_qr import generate_heart_qr
+from styles.heart_qr import generate_custom_qr
 from utils.logo import embed_logo_in_qr
 
 
 def generate_qr(
         data: str,
-        foreground: str = "#000000",
-        background: str = "#FFFFFF",
+        foreground: str = "black",
+        background: str = "white",
         scale: int = 5,
         shape: str="default",
+        shape_scale=1.3,
         error_level: str = "h",
-        logo_image=None,       # <-- now accepts UploadFile
-        logo_scale: float = 0.3
+        logo_image=None,
+        logo_scale: float = 0.2
 ):
-    """
-    Main QR generator function. Dispatches to specific shape modules.
-    """
 
-    # Dispatch to correct shape
     if shape == "heart":
-        qr_bytes=generate_heart_qr(
+        qr_bytes=generate_custom_qr(
             data=data,
             foreground=foreground,
             background=background,
             scale=scale,
+            shape_scale=shape_scale,
             error_level=error_level
         )
-    else:  # default or unknown shape
+    else:
         qr_bytes=generate_default_qr(
             data=data,
             foreground=foreground,
@@ -42,7 +36,6 @@ def generate_qr(
         )
 
     if logo_image:
-        # Read bytes from UploadFile
         logo_bytes = logo_image.file.read()
         qr_bytes = embed_logo_in_qr(qr_bytes, logo_bytes, logo_scale)
 

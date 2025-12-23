@@ -2,18 +2,14 @@
 
 import segno
 import io
-import cairosvg
 
 def generate_default_qr(
         data,
-        foreground = "#000000",
-        background = "#FFFFFF",
+        foreground = "black",
+        background = "white",
         scale = 5,
         error_level = "h"
 ):
-    """
-    Generate standard square QR code.
-    """
 
     qr = segno.make(data, error=error_level)
 
