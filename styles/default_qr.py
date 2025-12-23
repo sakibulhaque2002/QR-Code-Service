@@ -5,13 +5,11 @@ import io
 import cairosvg
 
 def generate_default_qr(
-        type,
         data,
         foreground = "#000000",
         background = "#FFFFFF",
         scale = 5,
-        error_level = "h",
-        output_format = "png"
+        error_level = "h"
 ):
     """
     Generate standard square QR code.
