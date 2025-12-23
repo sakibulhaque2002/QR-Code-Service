@@ -3,9 +3,13 @@ import re
 import cairosvg
 from PIL import Image
 
-def create_shape(color: str, size: float) -> Image.Image:
-    """Create a heart image with the specified color and size."""
-    svg_path = "assets/heart.svg"
+def create_shape(color: str, shape: str, size: float) -> Image.Image:
+    """Create a heart image with the specifheartied color and size."""
+    svg_paths = {
+        "heart": "assets/heart.svg",
+        "circle": "assets/circle.svg",
+    }
+    svg_path = svg_paths.get(shape, "assets/heart.svg")
 
     """Read SVG file and replace fill color with user-specified color."""
     with open(svg_path, "r") as f:

@@ -8,6 +8,7 @@ def generate_custom_qr(
         foreground = "black",
         background = "white",
         scale = 5,
+        shape=None,
         shape_scale=1.3,
         error_level = "h"
 ):
@@ -27,7 +28,7 @@ def generate_custom_qr(
     qr_img = Image.new("RGBA", (img_width, img_height), background)
 
     # Step 4: Create heart image with user-specified color
-    heart = create_shape(foreground, scale * shape_scale)
+    module_shape = create_shape(foreground, shape, scale * shape_scale)
 
     # Step 5: Place hearts where QR modules are dark
     for row_idx, row in enumerate(matrix):
@@ -35,7 +36,7 @@ def generate_custom_qr(
             if module:  # Dark module (1 or True)
                 x = (col_idx + border) * scale
                 y = (row_idx + border) * scale
-                qr_img.paste(heart, (x, y), mask=heart)
+                qr_img.paste(module_shape, (x, y), mask=module_shape)
 
     # Step 6: Return as PNG
     buffer = io.BytesIO()

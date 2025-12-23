@@ -1,7 +1,7 @@
 # qr_converter.py
 
 from styles.default_qr import generate_default_qr
-from styles.heart_qr import generate_custom_qr
+from styles.custom_qr import generate_custom_qr
 from utils.logo import embed_logo_in_qr
 
 
@@ -17,21 +17,22 @@ def generate_qr(
         logo_scale: float = 0.2
 ):
 
-    if shape == "heart":
-        qr_bytes=generate_custom_qr(
+    if shape == "default":
+        qr_bytes = generate_default_qr(
             data=data,
             foreground=foreground,
             background=background,
             scale=scale,
-            shape_scale=shape_scale,
             error_level=error_level
         )
     else:
-        qr_bytes=generate_default_qr(
+        qr_bytes = generate_custom_qr(
             data=data,
             foreground=foreground,
             background=background,
             scale=scale,
+            shape=shape,
+            shape_scale=shape_scale,
             error_level=error_level
         )
 
