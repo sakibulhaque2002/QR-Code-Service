@@ -1,6 +1,7 @@
 import segno
 from PIL import Image
 import io
+
 from utils.shape import create_shape
 
 def generate_custom_qr(

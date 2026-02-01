@@ -1,10 +1,10 @@
 # main.py
 
-from PIL.ImageOps import scale
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.responses import StreamingResponse
-from utils.qr_generator import generate_qr
 import io
+
+from utils.qr_generator import generate_qr
 
 app = FastAPI(title="Custom QR Code API")
 
