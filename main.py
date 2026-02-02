@@ -11,8 +11,8 @@ app = FastAPI(title="Custom QR Code API")
 @app.post("/generate_qr")
 async def generate_qr_endpoint(
         data: str = Form(...),  # QR content
-        foreground: str = Form("#000000"),
-        background: str = Form("#FFFFFF"),
+        foreground: str = Form("black"),
+        background: str = Form("white"),
         scale: int = Form(5),
         shape: str = Form("default"),  # default, heart, circle, etc.
         shape_scale: float = Form(1.3),

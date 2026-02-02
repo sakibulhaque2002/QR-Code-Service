@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+segno
+pillow
+CairoSVG
+python-multipart
