@@ -1,0 +1,9 @@
+{
+  "DEFAULT": {
+    "foreground": "black",
+    "background": "white",
+    "scale": 5,
+    "shape": "default",
+    "shape_scale": 1.3
+  }
+}
