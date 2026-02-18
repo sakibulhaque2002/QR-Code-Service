@@ -3,11 +3,14 @@
 import io
 from PIL import Image
 
-def embed_logo_in_qr(qr_bytes: bytes, logo_bytes: bytes, logo_scale: float = 0.2) -> bytes:
+def embed_logo_in_qr(qr_bytes: bytes, logo_bytes: bytes, logo_scale: float) -> bytes:
 
     # Open QR image
     qr_img = Image.open(io.BytesIO(qr_bytes)).convert("RGBA")
     logo = Image.open(io.BytesIO(logo_bytes)).convert("RGBA")
+
+    if logo_scale is None:
+        logo_scale = 0.3  # Default to 30% of QR size
 
     # Resize logo
     qr_width, qr_height = qr_img.size

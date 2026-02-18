@@ -3,4 +3,4 @@
 from pydantic import BaseModel
 
 class RequestBody(BaseModel):
-    customJwt: str
+    token: str
