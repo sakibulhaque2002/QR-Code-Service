@@ -6,6 +6,8 @@ import hmac
 from fastapi import HTTPException
 
 from config import SECRET_KEY, HMAC_ALGO
+from utils.nonce import verify_nonce
+
 
 def sign_data(payload: str) -> str:
     mac = hmac.new(
@@ -25,7 +27,6 @@ def sign_data(payload: str) -> str:
 
 def verify_and_extract(token: str) -> dict:
     parts = token.split(".")
-
     if len(parts) != 2:
         raise HTTPException(status_code=400, detail="Invalid token format")
 
@@ -34,7 +35,6 @@ def verify_and_extract(token: str) -> dict:
 
     # 🔐 Recompute signature
     expected_signature = sign_data(payload_b64)
-
     if not hmac.compare_digest(received_signature, expected_signature):
         raise HTTPException(status_code=401, detail="Invalid signature")
 
@@ -43,6 +43,12 @@ def verify_and_extract(token: str) -> dict:
         padded = payload_b64 + "=" * (-len(payload_b64) % 4)
         decoded_bytes = base64.urlsafe_b64decode(padded)
         claims = json.loads(decoded_bytes)
-        return claims
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid payload")
+
+    # ✅ Verify nonce
+    nonce = claims.get("nonce")
+    if not nonce or not verify_nonce(nonce):
+        raise HTTPException(status_code=401, detail="Invalid or expired nonce")
+
+    return claims
