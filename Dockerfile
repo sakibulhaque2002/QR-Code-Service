@@ -23,4 +23,8 @@ EXPOSE 8000
 # Run the application
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
+#docker tag qr-code-service saaaakibbb/qr-code-service:latest
+#docker login
+#docker push saaaakibbb/qr-code-service:latest
+
 #docker run -p 8000:8000 saaaakibbb/qr-code-service:latest
