@@ -3,21 +3,16 @@
 from fastapi import APIRouter, Form, File, UploadFile, Query
 from fastapi.responses import StreamingResponse
 import io
-import base64
-import json
-import hmac
-import os
-from fastapi import HTTPException
 from fastapi import Request
 
-
+from utils.nonce import validate_nonce
 from utils.qr_generator import generate_qr
 from utils.customJwt import verify_and_extract
 from utils.helpers import get_final
 from utils.resolve_logo import resolve_logo, resolve_logo_file
 from utils.template import get_template
 
-router = APIRouter()  # single router for all endpoints
+router = APIRouter()
 
 
 @router.post("/post_qr_code")
@@ -59,16 +54,18 @@ async def post_qr_code(
 @router.get("/get_qr_code")
 async def get_qr_code(token: str = Query(...), request: Request = None):
 
-    qr_params=verify_and_extract(token)
+    claims =verify_and_extract(token)
+    validate_nonce(claims)
+    qr_params = claims
 
-    # 4️⃣ Extract template_name from payload (default to "DEFAULT")
+    # Extract template_name from payload (default to "DEFAULT")
     template_name = qr_params.get("template", "default")
     template_config = get_template(request, template_name)
 
-    # 5️⃣ Handle logo (no file upload in GET, fallback to template)
+    # Handle logo (no file upload in GET, fallback to template)
     logo_bytes = resolve_logo(qr_params.get("logo_image"), template_config)
 
-    # 6️⃣ Generate QR using payload values or template defaults
+    # Generate QR using payload values or template defaults
     qr_bytes = generate_qr(
         data=qr_params.get("data"),
         foreground=get_final(qr_params.get("foreground"), template_config.get("foreground")),

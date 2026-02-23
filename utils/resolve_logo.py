@@ -1,7 +1,7 @@
 # utils/resolve_logo.py
 
 import os
-from fastapi import HTTPException, UploadFile
+from fastapi import UploadFile
 
 
 async def resolve_logo_file(uploaded_logo: UploadFile, template_config: dict):

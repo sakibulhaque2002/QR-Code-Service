@@ -6,7 +6,6 @@ import hmac
 from fastapi import HTTPException
 
 from config import SECRET_KEY, HMAC_ALGO
-from utils.nonce import verify_nonce
 
 
 def sign_data(payload: str) -> str:
@@ -46,9 +45,5 @@ def verify_and_extract(token: str) -> dict:
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid payload")
 
-    # ✅ Verify nonce
-    nonce = claims.get("nonce")
-    if not nonce or not verify_nonce(nonce):
-        raise HTTPException(status_code=401, detail="Invalid or expired nonce")
-
     return claims
+

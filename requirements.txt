@@ -4,3 +4,4 @@ segno
 pillow
 CairoSVG
 python-multipart
+pydantic
